@@ -93,7 +93,13 @@ public class StockManagerSingleton {
 		return false;
 	}
 	
-	//public boolean addItem(MediaProduct product);
+	public boolean addItem(MediaProduct product) {
+		if(inventory.contains(product)) {
+		return false;
+	}
+		inventory.add(product);
+		return true;
+	}
 	
 	//public boolean removeItem(MediaProduct product);
 	
