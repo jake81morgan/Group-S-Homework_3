@@ -84,7 +84,14 @@ public class StockManagerSingleton {
 	}
 
 	
-	//public boolean updateItemPrice(MediaProduct product, double newPrice);
+	//Updates the price of a given product
+	public boolean updateItemPrice(MediaProduct product, double newPrice) {
+	if(newPrice >= 0) {
+		product.setPrice(newPrice);
+		return true;
+	}
+		return false;
+	}
 	
 	//public boolean addItem(MediaProduct product);
 	
