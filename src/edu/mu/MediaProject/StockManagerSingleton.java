@@ -23,7 +23,12 @@ public class StockManagerSingleton {
 		
 	}
 	
+	// Returns inventory ArrayList
+	public ArrayList<MediaProduct> getInventory() {
+		return inventory;
+	}
 	
+	// Adds products from file to inventory ArrayList
 	public boolean initializeStock() {
 		
 		inventory = new ArrayList<MediaProduct>();
