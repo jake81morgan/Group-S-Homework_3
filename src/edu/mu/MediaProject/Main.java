@@ -21,6 +21,14 @@ public class Main {
        System.out.println("Inventory:");
        for (MediaProduct product : Inventory) {
            System.out.println(product);
+       }  
+       
+       if(inventory.saveStock()) {
+    	   System.out.println("Inventory written to CSV file.");
+       } else {
+    	   System.out.println("Writing error.");
        }
+       
+       
 	}
 }
