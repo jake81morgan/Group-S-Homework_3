@@ -1,6 +1,8 @@
 package edu.mu.MediaProject;
 
 import java.util.*;
+
+import edu.mu.MediaProject.MediaProducts.Genre;
 import edu.mu.MediaProject.MediaProducts.MediaProduct;
 
 
@@ -29,6 +31,11 @@ public class Main {
     	   System.out.println("Writing error.");
        }
        
+       ArrayList<MediaProduct> belowPriceProducts = inventory.getMediaProductBelowPrice(14);
+       System.out.println("Products less than $14");
+       for (MediaProduct product : belowPriceProducts) {
+           System.out.println(product);
+       }
        
 	}
 }
