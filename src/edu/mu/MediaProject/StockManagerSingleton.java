@@ -7,6 +7,7 @@ import edu.mu.MediaProject.MediaProducts.*;
 
 public class StockManagerSingleton {
 	
+	// Initialize members
 	private static final String inventoryFilePath = "inventory.csv";
 	private static StockManagerSingleton instance = null;
 	private ArrayList<MediaProduct> inventory;
@@ -15,6 +16,7 @@ public class StockManagerSingleton {
 		
 	}
 	
+	// Creates single instance of class
 	public static StockManagerSingleton getInstance() {
 		if(instance == null) {
 			instance = new StockManagerSingleton();
@@ -22,12 +24,7 @@ public class StockManagerSingleton {
 		return instance;
 		
 	}
-	
-	// Returns inventory ArrayList
-	public ArrayList<MediaProduct> getInventory() {
-		return inventory;
-	}
-	
+
 	// Adds products from file to inventory ArrayList
 	public boolean initializeStock() {
 		
@@ -84,7 +81,7 @@ public class StockManagerSingleton {
 	}
 
 	
-	//Updates the price of a given product
+	// Updates the price of a given product
 	public boolean updateItemPrice(MediaProduct product, double newPrice) {
 	if(newPrice >= 0) {
 		product.setPrice(newPrice);
@@ -93,6 +90,7 @@ public class StockManagerSingleton {
 		return false;
 	}
 	
+	// Adds product to inventory
 	public boolean addItem(MediaProduct product) {
 		if(inventory.contains(product)) {
 		return false;
@@ -101,6 +99,7 @@ public class StockManagerSingleton {
 		return true;
 	}
 	
+	// Removes product from inventory
 	public boolean removeItem(MediaProduct product) {
 		inventory.remove(product);
 		if(inventory.contains(product)) {
@@ -111,7 +110,47 @@ public class StockManagerSingleton {
 		}
 	}
 	
-	//public boolean saveStock();
+	// Takes the inventory ArrayList and saves it to the existing CSV file by overwriting
+	public boolean saveStock() {
+		
+		try {
+			
+			// Initializes writer
+			BufferedWriter writer = new BufferedWriter(new FileWriter(inventoryFilePath));
+			
+			// Created header of file
+			writer.write("Type,Title,Price,Year,Genre");
+            writer.newLine();
+
+            for(MediaProduct p : inventory) {
+            	
+            	// Adds products to CSV file
+            	if(p instanceof CDRecordProduct) {
+            		writer.write( "CD" + "," + p.getTitle() + "," + p.getPrice() + "," + p.getYear() + "," + p.getGenre());
+            	} else if (p instanceof TapeRecordProduct) {
+            		writer.write( "Tape" + "," + p.getTitle() + "," + p.getPrice() + "," + p.getYear() + "," + p.getGenre());
+            	} else if (p instanceof VinylRecordProduct) {
+            		writer.write( "Vinyl" + "," + p.getTitle() + "," + p.getPrice() + "," + p.getYear() + "," + p.getGenre());
+            	}
+            	
+            	writer.newLine(); // Moves to next line
+                
+            }
+
+            // Close the writer
+            writer.close();
+			
+			return true;
+			
+		} catch (IOException e) {
+			
+			System.out.println("File write error.");
+			return false;
+			
+		} 
+		
+	}
+	
 	
 	//public ArrayList<MediaProduct> getMediaProductBelowPrice(int maxPrice);
 	
@@ -122,5 +161,16 @@ public class StockManagerSingleton {
 	//public ArrayList<CDRecordProduct> getCDRecordsList(ArrayList<MediaProduct> productList);
 	
 	//public ArrayList<TapeRecordProduct> getTapeRecordList(ArrayList<MediaProduct> productList);
+	
+	
+	// Inventory getter and setter
+	
+	public ArrayList<MediaProduct> getInventory() {
+		return inventory;
+	}
+
+	public void setInventory(ArrayList<MediaProduct> inventory) {
+		this.inventory = inventory;
+	}
 	
 }
