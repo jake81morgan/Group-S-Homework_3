@@ -32,50 +32,32 @@ public class StockManagerSingleton {
 		
 		try {
 			
-			// Initializes the file reader
+			// Initializes the file reader and skips header line
 			Scanner scanner = new Scanner(new FileInputStream(inventoryFilePath));
-			
-			// Skips header line of file
 			scanner.nextLine();
 			
 			// Reads product info from file
 			while(scanner.hasNext()) {
 				
-				MediaProduct product;
-				String[] info;
-				
 				// Read product info off file
+				String[] info;
 				info = scanner.nextLine().split(",");
-
-				String type = info[0];
-				String title = info[1];
-				double price = Double.parseDouble(info[2]);
-				int year = Integer.parseInt(info[3]);
-				Genre genre = Genre.valueOf(info[4]);
 				
 				// Add product to inventory
 				if(info[0].equals("CD")) {
-					product = new CDRecordProduct(title, price, year, genre);
-					inventory.add(product);
+					inventory.add(new CDRecordProduct(info[1], Double.parseDouble(info[2]), Integer.parseInt(info[3]), Genre.valueOf(info[4])));
 				} else if(info[0].equals("Tape")) {
-					product = new TapeRecordProduct(title, price, year, genre);
-					inventory.add(product);
-					
+					inventory.add(new TapeRecordProduct(info[1], Double.parseDouble(info[2]), Integer.parseInt(info[3]), Genre.valueOf(info[4])));
 				} else if(info[0].equals("Vinyl")) {
-					product = new VinylRecordProduct(title, price, year, genre);
-					inventory.add(product);
+					inventory.add(new VinylRecordProduct(info[1], Double.parseDouble(info[2]), Integer.parseInt(info[3]), Genre.valueOf(info[4])));
 				}
-				
 			}
-			
 			return true;
 			
 		  // Thrown if file directory is incorrect
 		} catch (FileNotFoundException e) {
-			
 			System.out.println("File not found.");
 			return false;
-			
 		}
 		
 	}
@@ -115,16 +97,13 @@ public class StockManagerSingleton {
 		
 		try {
 			
-			// Initializes writer
+			// Initializes writer and creates header of file
 			BufferedWriter writer = new BufferedWriter(new FileWriter(inventoryFilePath));
-			
-			// Created header of file
 			writer.write("Type,Title,Price,Year,Genre");
             writer.newLine();
 
+        	// Adds products to CSV file
             for(MediaProduct p : inventory) {
-            	
-            	// Adds products to CSV file
             	if(p instanceof CDRecordProduct) {
             		writer.write( "CD" + "," + p.getTitle() + "," + p.getPrice() + "," + p.getYear() + "," + p.getGenre());
             	} else if (p instanceof TapeRecordProduct) {
@@ -132,26 +111,19 @@ public class StockManagerSingleton {
             	} else if (p instanceof VinylRecordProduct) {
             		writer.write( "Vinyl" + "," + p.getTitle() + "," + p.getPrice() + "," + p.getYear() + "," + p.getGenre());
             	}
-            	
             	writer.newLine(); // Moves to next line
-                
             }
 
             // Close the writer
             writer.close();
-			
 			return true;
-			
 		} catch (IOException e) {
-			
 			System.out.println("File write error.");
 			return false;
-			
 		} 
-		
 	}
 	
-	
+	// Returns a list of MediaProducts below a certain price from a list of MediaProducts
 	public ArrayList<MediaProduct> getMediaProductBelowPrice(int maxPrice) {
 		ArrayList<MediaProduct> belowPrice = new ArrayList<>();
 
@@ -183,6 +155,7 @@ public class StockManagerSingleton {
 	    return vinylRecords;
 	}
 	
+	// Retrieves a list of CDRecordProducts from a list of MediaProducts
 	public ArrayList<CDRecordProduct> getCDRecordsList(ArrayList<MediaProduct> productList){
 		ArrayList<CDRecordProduct> CDRecords = new ArrayList<>();
 	    for (MediaProduct product : productList) {
@@ -193,7 +166,7 @@ public class StockManagerSingleton {
 	    return CDRecords;
 	}
 	
-	
+	// Retrieves a list of  TapeRecordProducts from a list of MediaProducts
 	public ArrayList<TapeRecordProduct> getTapeRecordList(ArrayList<MediaProduct> productList){
 		ArrayList<TapeRecordProduct> TapeRecords = new ArrayList<>();
 	    for (MediaProduct product : productList) {
@@ -206,11 +179,9 @@ public class StockManagerSingleton {
 	
 	
 	// Inventory getter and setter
-	
 	public ArrayList<MediaProduct> getInventory() {
 		return inventory;
 	}
-
 	public void setInventory(ArrayList<MediaProduct> inventory) {
 		this.inventory = inventory;
 	}
