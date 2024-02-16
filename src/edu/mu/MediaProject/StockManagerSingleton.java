@@ -164,13 +164,45 @@ public class StockManagerSingleton {
         return belowPrice;
 	}
 	
-	//public void printListOfMediaProduct(ArrayList<MediaProduct> productList);
+	// Prints a list of MediaProducts
+	public void printListOfMediaProduct(ArrayList<MediaProduct> productList) {
+	    for (MediaProduct product : productList) {
+	        System.out.println(product);
+	    }
+	}
+
 	
-	//public ArrayList<VinylRecordProduct> getVinylRecordList(ArrayList<MediaProduct> productList);
+	// Retrieves a list of VinylRecordProducts from a list of MediaProducts
+	public ArrayList<VinylRecordProduct> getVinylRecordList(ArrayList<MediaProduct> productList) {
+	    ArrayList<VinylRecordProduct> vinylRecords = new ArrayList<>();
+	    for (MediaProduct product : productList) {
+	        if (product instanceof VinylRecordProduct) {
+	            vinylRecords.add((VinylRecordProduct) product);
+	        }
+	    }
+	    return vinylRecords;
+	}
 	
-	//public ArrayList<CDRecordProduct> getCDRecordsList(ArrayList<MediaProduct> productList);
+	public ArrayList<CDRecordProduct> getCDRecordsList(ArrayList<MediaProduct> productList){
+		ArrayList<CDRecordProduct> CDRecords = new ArrayList<>();
+	    for (MediaProduct product : productList) {
+	        if (product instanceof CDRecordProduct) {
+	        	CDRecords.add((CDRecordProduct) product);
+	        }
+	    }
+	    return CDRecords;
+	}
 	
-	//public ArrayList<TapeRecordProduct> getTapeRecordList(ArrayList<MediaProduct> productList);
+	
+	public ArrayList<TapeRecordProduct> getTapeRecordList(ArrayList<MediaProduct> productList){
+		ArrayList<TapeRecordProduct> TapeRecords = new ArrayList<>();
+	    for (MediaProduct product : productList) {
+	        if (product instanceof TapeRecordProduct) {
+	        	TapeRecords.add((TapeRecordProduct) product);
+	        }
+	    }
+	    return TapeRecords;
+	}
 	
 	
 	// Inventory getter and setter
